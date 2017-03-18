@@ -1,0 +1,26 @@
+# Begin of mod_rewrite
+<IfModule mod_rewrite.c>
+    
+    <IfModule mod_negotiation.c>
+        Options -MultiViews
+    </IfModule>
+    
+    # Activate the mod Rewrite
+    RewriteEngine On
+    
+    # This rule will verify the subdomain and will pass a value in $_SERVER
+    RewriteCond %{HTTP_HOST} !^www
+    RewriteCond %{HTTP_HOST} ^([^\.]+)\.([^\.]+)\.([^\.]+)$
+    # Set the a variable SUBDOMAIN
+    RewriteRule ^(.*)$ $1 [E=SUBDOMAIN:%1]
+    
+    # Redirect All Requests To The Subfolder
+    
+    # This rule does not allow access to any file with the exception of index.php in the public folder
+    # RewriteRule ^ public/ 
+    
+    # This rule allow to access to any file in the public folder
+    RewriteRule ^(.*)$ public/$1 
+    
+</IfModule>
+# End of mod_rewrite

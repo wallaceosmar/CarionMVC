@@ -1,0 +1,17 @@
+{
+    "name": "carionmvc/carionmvc",
+    "version": "v0.0.1-dev",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Wallace Osmar",
+            "email": "wallace.osmar",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/wallaceosmar/CarionMVC/issues",
+        "wiki": "https://github.com/wallaceosmar/CarionMVC/wiki",
+        "source": "https://github.com/wallaceosmar/CarionMVC"
+    }
+}
