@@ -58,7 +58,7 @@ namespace CarionMVC\Routing {
          */
         public function dispatch( ServerRequest $request ) {
             $matches = $this->route->match($request);
-            var_dump($matches);
+            
             if ( false === $matches ) {
                 throw new MissingControllerException('Falha ao encontar o controller.');
             }
