@@ -1,6 +1,6 @@
-<?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
+<?php
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,33 +24,49 @@
  * THE SOFTWARE.
  */
 
-use CarionMVC\Load\Psr4Autoloader;
+namespace CarionMVC\Log {
+    
+    /**
+     * Logs messages
+     *
+     * @author Wallace Osmar <wallace.osmar@hotmail.com>
+     * @since 0.0.1
+     */
+    class Log {
+        
+        /**
+         * Declare instance
+         *
+         * @var Log
+         */
+        private static $instance = NULL;
+        
+        /**
+         *
+         * @var string 
+         */
+        private $logFile = null;
+        
+        /**
+         * 
+         */
+        public function __construct() {
+            
+        }
+        
+        /**
+         * 
+         */
+        public function write( $message, $file = null, $line = null ) {
+            $logMessage = time() . ' - ' . $message;
+            $logMessage .= is_null( $file ) ? '' : " in {$file}";
+            $logMessage .= is_null( $line ) ? '' : " on line {$line}";
+            $logMessage .= PHP_EOL;
+            
+            return file_put_contents( $this->logFile, $logMessage, FILE_APPEND);
+        }
+        
+        
+    }
 
-// Require the file for the PSR-4 Autoload Class
-require_once ( CORE_CLS_PATH . 'Load' . DS . 'Psr4Autoloader.php' );
-
-/* @var $autoload CarionMVC\Load\Psr4Autoloader */
-global $autoload;
-
-/**
- *
- * @global CarionMVC\Load\Psr4Autoloader $GLOBALS['autoloader']
- * 
- * @name $autoloader 
- */
-$GLOBALS['autoload'] = new Psr4Autoloader();
-
-// Seting the default namespaces
-$autoload->addNamespaces([
-    [ 'CarionMVC\\', CORE_CLS_PATH ],
-    [ 'App\\', APP_PATH ],
-    [ 'Lib\\', CORE_LIB_PATH ]
-]);
-
-// Register the autoload
-$autoload->register();
-
-// Verify if the vendor for composer exists
-if ( file_exists ( BASEPATH . 'vendor' . DS . 'autoload.php' ) ) {
-    require_once ( BASEPATH . 'vendor' . DS . 'autoload.php' );
 }

@@ -24,5 +24,5 @@
  * THE SOFTWARE.
  */
 
-
-$router->map('GET', '/[:page]?', 'default@index', 'index');
+$router->map('GET', '/', 'default@index', 'index');
+$router->map('GET', '/[:page]', 'default@index', 'index');

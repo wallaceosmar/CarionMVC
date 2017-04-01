@@ -3,7 +3,7 @@
 /*
  * The MIT License
  *
- * Copyright 2017 Avell G1511 MAX.
+ * Copyright 2017 Wallace Osmar.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Core\Load {
+namespace CarionMVC\Load {
     
     /**
      * Classe para o carregamento automatico de classe

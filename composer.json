@@ -1,11 +1,11 @@
 {
     "name": "carionmvc/carionmvc",
-    "version": "v0.0.1-dev",
+    "version": "v0.0.3-dev",
     "license": "MIT",
     "authors": [
         {
             "name": "Wallace Osmar",
-            "email": "wallace.osmar",
+            "email": "wallace.osmar@hotmail.com",
             "role": "Developer"
         }
     ],

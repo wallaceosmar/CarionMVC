@@ -1,6 +1,6 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,33 +24,38 @@
  * THE SOFTWARE.
  */
 
-use CarionMVC\Load\Psr4Autoloader;
-
-// Require the file for the PSR-4 Autoload Class
-require_once ( CORE_CLS_PATH . 'Load' . DS . 'Psr4Autoloader.php' );
-
-/* @var $autoload CarionMVC\Load\Psr4Autoloader */
-global $autoload;
-
-/**
- *
- * @global CarionMVC\Load\Psr4Autoloader $GLOBALS['autoloader']
- * 
- * @name $autoloader 
- */
-$GLOBALS['autoload'] = new Psr4Autoloader();
-
-// Seting the default namespaces
-$autoload->addNamespaces([
-    [ 'CarionMVC\\', CORE_CLS_PATH ],
-    [ 'App\\', APP_PATH ],
-    [ 'Lib\\', CORE_LIB_PATH ]
-]);
-
-// Register the autoload
-$autoload->register();
-
-// Verify if the vendor for composer exists
-if ( file_exists ( BASEPATH . 'vendor' . DS . 'autoload.php' ) ) {
-    require_once ( BASEPATH . 'vendor' . DS . 'autoload.php' );
+namespace CarionMVC\Call {
+    
+    /**
+     * Description of ParseParams
+     *
+     * @author Wallace Osmar <wallace.osmar@hotmail.com>
+     * @license http://www.opensource.org/licenses/mit-license.php MIT License
+     */
+    trait ParseParams {
+        
+        /**
+         * 
+         * @param \ReflectionMethod $relfectionMethod
+         * @param array $param_arr
+         * 
+         * @return array
+         */
+        private function _parseParams( $relfectionMethod, &$param_arr = [], $settings_arr = [] ) {
+            $params_new = [];
+            $reflectionParameters = $relfectionMethod->getParameters();
+            for( $i = 0; $i < count( $reflectionParameters ); $i++ ) {
+                $key = $reflectionParameters[$i]->getName();
+                if( isset( $param_arr[$key] ) ){
+                    $params_new[ $i ] = &$param_arr[$key];
+                } elseif( isset( $settings_arr[$key] ) ) {
+                    $params_new[ $i ] = $settings_arr[$key];
+                } else {
+                    $params_new[$i] = null;
+                }
+            }
+            return $params_new;
+        }
+        
+    }
 }

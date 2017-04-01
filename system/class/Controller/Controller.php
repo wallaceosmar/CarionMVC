@@ -1,6 +1,6 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,33 +24,49 @@
  * THE SOFTWARE.
  */
 
-use CarionMVC\Load\Psr4Autoloader;
-
-// Require the file for the PSR-4 Autoload Class
-require_once ( CORE_CLS_PATH . 'Load' . DS . 'Psr4Autoloader.php' );
-
-/* @var $autoload CarionMVC\Load\Psr4Autoloader */
-global $autoload;
-
-/**
- *
- * @global CarionMVC\Load\Psr4Autoloader $GLOBALS['autoloader']
- * 
- * @name $autoloader 
- */
-$GLOBALS['autoload'] = new Psr4Autoloader();
-
-// Seting the default namespaces
-$autoload->addNamespaces([
-    [ 'CarionMVC\\', CORE_CLS_PATH ],
-    [ 'App\\', APP_PATH ],
-    [ 'Lib\\', CORE_LIB_PATH ]
-]);
-
-// Register the autoload
-$autoload->register();
-
-// Verify if the vendor for composer exists
-if ( file_exists ( BASEPATH . 'vendor' . DS . 'autoload.php' ) ) {
-    require_once ( BASEPATH . 'vendor' . DS . 'autoload.php' );
+namespace CarionMVC\Controller {
+    
+    use CarionMVC\Load\Loader;
+    
+    /**
+     * Description of Controller
+     *
+     * @author Wallace Osmar <wallace.osmar@hotmail.com>
+     */
+    class Controller {
+        
+        /**
+         * The singleton of the Class
+         * 
+         * @var Controller 
+         */
+        protected static $instance = null;
+        
+        /**
+         * 
+         * @var Core\Loads\Loader 
+         */
+        var $load = null;
+        
+        /**
+         * Return the singleton of the Class
+         * 
+         * @return Controller
+         */
+        public static function &singleton() {
+            return self::$instance;
+        }
+        
+        /**
+         * Contruct
+         */
+        public function __construct() {
+            self::$instance = &$this;
+            
+            // Loader class
+            $this->load = new Loader();
+        }
+    
+    }
+    
 }

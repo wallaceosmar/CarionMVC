@@ -29,6 +29,7 @@ define( 'APP_PATH', BASEPATH . 'application' . DS );
 define( 'APP_CTL_PATH', APP_PATH . 'Controllers' . DS );
 define( 'APP_MDL_PATH', APP_PATH . 'Models' . DS );
 define( 'APP_VIEW_PATH', APP_PATH . 'Views' . DS );
+define( 'APP_CFG_PATH', APP_PATH . 'config' . DS );
 /** End Application Constants */
 
 /** Begin Core Constants */

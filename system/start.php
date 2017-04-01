@@ -24,8 +24,23 @@
  * THE SOFTWARE.
  */
 
+use CarionMVC\Core\App;
+
+/* @var $app CarionMVC\Core\App */
+global $app;
+
 // Require the constant of the project
 require_once ( dirname( __FILE__ ) . DS . 'include' . DS . 'default-constants.php' );
 
 // Seting the autoloader
 require_once ( CORE_INC_PATH . 'inc.autoload.php' );
+
+// Adding common functions
+require_once ( CORE_FNC_PATH . 'common.php' );
+
+$app = App::singleton();
+
+// Initialize error
+require_once ( CORE_INC_PATH . 'inc.error.php' );
+
+$app->run();
