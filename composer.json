@@ -1,17 +1,25 @@
 {
     "name": "carionmvc/carionmvc",
-    "version": "v0.0.3-dev",
+    "description": "Um Framework MVC",
+    "version": "0.0.4-dev",
+    "type": "project",
+    "keywords": [ "MVC", "Framework"],
+    "homepage": "https://wallaceosmar.github.io/CarionMVC/",
     "license": "MIT",
     "authors": [
         {
             "name": "Wallace Osmar",
             "email": "wallace.osmar@hotmail.com",
+            "homepage": "https://github.com/wallaceosmar",
             "role": "Developer"
         }
     ],
     "support": {
+        "email": "wallace.osmar@hotmail.com",
         "issues": "https://github.com/wallaceosmar/CarionMVC/issues",
         "wiki": "https://github.com/wallaceosmar/CarionMVC/wiki",
-        "source": "https://github.com/wallaceosmar/CarionMVC"
-    }
+        "source": "https://github.com/wallaceosmar/CarionMVC",
+        "docs": "https://wallaceosmar.github.io/CarionMVC/"
+    },
+    "minimum-stability": "stable"
 }
