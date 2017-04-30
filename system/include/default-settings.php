@@ -29,13 +29,13 @@ return [
     
     'registry' => [
         
-        'response' => 'CarionMVC\\Http\\ServerResponse',
+        'response' => 'Carion\\Http\\ServerResponse',
         
-        'request' => 'CarionMVC\\Http\\ServerRequest',
+        'request' => 'Carion\\Http\\ServerRequest',
         
-        'router' => 'CarionMVC\\Routing\\Route\\Route',
+        'router' => 'Carion\\Routing\\Route\\Route',
         
-        'dispatcher' => 'CarionMVC\\Routing\\Dispatcher'
+        'dispatcher' => 'Carion\\Routing\\Dispatcher'
     ]
     
 ];

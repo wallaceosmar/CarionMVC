@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-use CarionMVC\Error\CarionErrorHandler;
+use Carion\Error\CarionErrorHandler;
 
-/* @var $app CarionMVC\Core\App */
+/* @var $app Carion\Core\App */
 global $app;
 
 $app->error = new CarionErrorHandler();

@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Error\Exception {
+namespace Carion\Error\Exception {
     
     use RuntimeException;
     

@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Http {
+namespace Carion\Http {
     
     /**
      *

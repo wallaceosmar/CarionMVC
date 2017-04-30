@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Load {
+namespace Carion\Load {
     
     /**
      * Classe para o carregamento automatico de classe

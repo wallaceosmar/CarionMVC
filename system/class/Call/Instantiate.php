@@ -24,11 +24,11 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Call {
+namespace Carion\Call {
     
     use ReflectionClass;
     use ReflectionMethod;
-    use CarionMVC\Call\ParseParams;
+    use Carion\Call\ParseParams;
     
     /**
      * Description of Call
@@ -41,6 +41,7 @@ namespace CarionMVC\Call {
         use ParseParams;
         
         /**
+         * Create a new Instance of my class
          * 
          * @param type $class
          * @param type $param_arr

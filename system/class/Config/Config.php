@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Config {
+namespace Carion\Config {
     
     /**
      * Description of Config
@@ -35,7 +35,7 @@ namespace CarionMVC\Config {
         
         /**
          *
-         * @var \CarionMVC\Config\Config 
+         * @var \Carion\Config\Config 
          */
         protected static $instance;
         

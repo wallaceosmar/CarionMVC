@@ -26,10 +26,10 @@
 
 namespace App\Controller {
     
-    use CarionMVC\Controller\Controller;
+    use Carion\Controller\Controller;
     
     /**
-     * Description of defaultController
+     * Default class defaultController for demo purpose.
      *
      * @author Wallace Osmar <wallace.osmar@hotmail.com>
      * @license http://www.opensource.org/licenses/mit-license.php MIT License

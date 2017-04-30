@@ -24,33 +24,30 @@
  * THE SOFTWARE.
  */
 
-use Carion\Load\Psr4Autoloader;
+use Carion\Carion;
 
-// Require the file for the PSR-4 Autoload Class
-require_once ( CORE_CLS_PATH . 'Load' . DS . 'Psr4Autoloader.php' );
+/* @var $app Carion\Core\Framework */
+global $app;
 
-/* @var $autoload CarionMVC\Load\Psr4Autoloader */
-global $autoload;
+// Require the constant of the project
+require_once ( dirname( __FILE__ ) . DS . 'include' . DS . 'default-constants.php' );
+require_once ( CORE_INC_PATH . 'version.php' );
 
-/**
- *
- * @global CarionMVC\Load\Psr4Autoloader $GLOBALS['autoloader']
- * 
- * @name $autoloader 
- */
-$GLOBALS['autoload'] = new Psr4Autoloader();
-
-// Seting the default namespaces
-$autoload->addNamespaces([
-    [ 'Carion\\', CORE_CLS_PATH ],
-    [ 'App\\', APP_PATH ],
-    [ 'Lib\\', CORE_LIB_PATH ]
-]);
-
-// Register the autoload
-$autoload->register();
-
-// Verify if the vendor for composer exists
-if ( file_exists ( BASEPATH . 'vendor' . DS . 'autoload.php' ) ) {
-    require_once ( BASEPATH . 'vendor' . DS . 'autoload.php' );
+// Check Version
+if ( version_compare(phpversion(), PHP_MINOR_REQUIRED_VERSION, '<' ) == true) {
+    exit('PHP' . PHP_MINOR_REQUIRED_VERSION . '+ Required');
 }
+
+if ( ! ini_get('date.timezone') ) {
+    date_default_timezone_set('UTC');
+}
+
+// Include Autoloader
+require_once ( CORE_INC_PATH . 'inc.autoload.php' );
+
+$app = new Carion();
+
+// Adding common functions
+require_once ( CORE_FNC_PATH . 'common.php' );
+
+$app->run();

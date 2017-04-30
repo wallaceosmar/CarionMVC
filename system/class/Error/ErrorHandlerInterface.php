@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Error {
+namespace Carion\Error {
     
     /**
      * 

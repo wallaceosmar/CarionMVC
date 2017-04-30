@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Routing\Exception {
+namespace Carion\Routing\Exception {
     
-    use CarionMVC\Error\Exception\CarionException;
+    use Carion\Error\Exception\CarionException;
     
     /**
      * Description of MissingControllerException

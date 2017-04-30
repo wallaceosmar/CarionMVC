@@ -52,4 +52,4 @@ const DS = DIRECTORY_SEPARATOR;
 define('BASEPATH', dirname( dirname( __FILE__ ) ) . DS );
 
 // Start the core for framework
-require_once ( BASEPATH . 'system' . DS . 'start.php' );
+require_once ( BASEPATH . 'system' . DS . 'startup.php' );

@@ -1,4 +1,4 @@
-<?php
+<?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
 /*
  * The MIT License
@@ -24,49 +24,81 @@
  * THE SOFTWARE.
  */
 
-namespace Carion\Log {
+namespace Carion\Routing {
     
     /**
-     * Logs messages
+     * Description of RouteDispatcher
      *
      * @author Wallace Osmar <wallace.osmar@hotmail.com>
-     * @since 0.0.1
      */
-    class Log {
-        
-        /**
-         * Declare instance
-         *
-         * @var Log
-         */
-        private static $instance = NULL;
+    class RouteDispatcher {
         
         /**
          *
          * @var string 
          */
-        private $logFile = null;
+        private $controller;
+        
+        /**
+         *
+         * @var string 
+         */
+        private $action;
+        
+        /**
+         *
+         * @var array 
+         */
+        private $params = [];
+        
+        /**
+         *
+         * @var string 
+         */
+        private $name;
         
         /**
          * 
+         * @param array $args
          */
-        public function __construct() {
-            
+        public function __construct( $args ) {
+            $this->controller = $args['controller'];
+            $this->action = $args['method'];
+            $this->params = $args['params'];
+            $this->name = $args['name'];
         }
         
         /**
          * 
+         * @return string
          */
-        public function write( $message, $file = null, $line = null ) {
-            $logMessage = time() . ' - ' . $message;
-            $logMessage .= is_null( $file ) ? '' : " in {$file}";
-            $logMessage .= is_null( $line ) ? '' : " on line {$line}";
-            $logMessage .= PHP_EOL;
-            
-            return file_put_contents( $this->logFile, $logMessage, FILE_APPEND);
+        public function getController() {
+            return $this->controller;
         }
         
+        /**
+         * 
+         * @return string
+         */
+        public function getAction() {
+            return $this->action;
+        }
+        
+        /**
+         * 
+         * @return string
+         */
+        public function getName() {
+            return $this->name;
+        }
+        
+        /**
+         * 
+         * @return array
+         */
+        public function getParams() {
+            return $this->params;
+        }
         
     }
-
 }

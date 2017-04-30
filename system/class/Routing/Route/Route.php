@@ -24,10 +24,10 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Routing\Route {
+namespace Carion\Routing\Route {
     
-    use \CarionMVC\Http\ServerRequest;
-    use \CarionMVC\Routing\Exception\DuplicateNamedRouteException;
+    use \Carion\Http\ServerRequest;
+    use \Carion\Routing\Exception\DuplicateNamedRouteException;
     
     /**
      * Description of Route

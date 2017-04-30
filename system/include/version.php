@@ -1,6 +1,6 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,23 +24,13 @@
  * THE SOFTWARE.
  */
 
-use CarionMVC\Core\App;
+/**
+ * 
+ */
+const CORE_VERSION = 'v0.1-alpha.1';
 
-/* @var $app CarionMVC\Core\App */
-global $app;
 
-// Require the constant of the project
-require_once ( dirname( __FILE__ ) . DS . 'include' . DS . 'default-constants.php' );
-
-// Seting the autoloader
-require_once ( CORE_INC_PATH . 'inc.autoload.php' );
-
-// Adding common functions
-require_once ( CORE_FNC_PATH . 'common.php' );
-
-$app = App::singleton();
-
-// Initialize error
-require_once ( CORE_INC_PATH . 'inc.error.php' );
-
-$app->run();
+/**
+ * 
+ */
+const PHP_MINOR_REQUIRED_VERSION = '7.0.0';

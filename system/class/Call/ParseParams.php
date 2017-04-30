@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Call {
+namespace Carion\Call {
     
     /**
      * Description of ParseParams

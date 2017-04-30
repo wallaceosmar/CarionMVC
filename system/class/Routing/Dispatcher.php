@@ -24,11 +24,11 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Routing {
+namespace Carion\Routing {
     
-    use \CarionMVC\Http\ServerRequest;
-    use \CarionMVC\Routing\Route\Route;
-    use \CarionMVC\Routing\Exception\MissingControllerException;
+    use \Carion\Http\ServerRequest;
+    use \Carion\Routing\Route\Route;
+    use \Carion\Routing\Exception\MissingControllerException;
     
     /**
      * Dispatcher converts Requests into controller actions. It uses the
@@ -55,6 +55,8 @@ namespace CarionMVC\Routing {
         /**
          * 
          * @param \Core\Http\ServerRequest $request
+         * 
+         * @return \Carion\Routing\RouteDispatcher
          */
         public function dispatch( ServerRequest $request ) {
             $matches = $this->route->match($request);
@@ -81,12 +83,12 @@ namespace CarionMVC\Routing {
                 $controllet = $matches['params']['action'];
             }
             
-            return (object) [
+            return new RouteDispatcher([
                 'controller' => $controllet,
                 'method' => $method,
                 'params' => $matches['params'],
                 'name' => $matches['name']
-            ];
+            ]);
         }
         
     }

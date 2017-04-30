@@ -24,9 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Controller {
+namespace Carion\Controller {
     
-    use CarionMVC\Load\Loader;
+    use Carion\Load\Loader;
     
     /**
      * Description of Controller
@@ -44,10 +44,10 @@ namespace CarionMVC\Controller {
         
         /**
          * 
-         * @var Core\Loads\Loader 
+         * @var \Carion\Load\Loader
          */
         var $load = null;
-        
+                
         /**
          * Return the singleton of the Class
          * 
