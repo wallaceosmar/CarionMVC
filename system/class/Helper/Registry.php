@@ -173,6 +173,43 @@ namespace Carion\Helper {
         public function offsetUnset($offset): void {
             $this->remove( $offset );
         }
-
+        
+        /**
+         * 
+         * @param string $name
+         * @param mixed $value
+         */
+        public function __set($name, $value) {
+            $this->set($name, $value);
+        }
+        
+        /**
+         * 
+         * @param string $name
+         * 
+         * @return object
+         */
+        public function __get($name) {
+            return $this->get($name);
+        }
+        
+        /**
+         * 
+         * @param string $name
+         */
+        public function __unset($name) {
+            $this->remove($name);
+        }
+        
+        /**
+         * 
+         * @param string $name
+         * 
+         * @return bool
+         */
+        public function __isset($name) {
+            return $this->has($name);
+        }
+        
     }
 }
