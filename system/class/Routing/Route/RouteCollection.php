@@ -26,21 +26,21 @@
 
 namespace Carion\Routing\Route {
     
-    use \Carion\Http\ServerRequest;
+    use \Traversable;
+    use \Carion\Http\Request;
+    use \Carion\Error\Exception\CarionException;
     use \Carion\Routing\Exception\DuplicateNamedRouteException;
     
     /**
-     * Description of Route
+     * Description of RouteCollection
      * 
      * Based in AltoRouter
      * 
      * @author Wallace Osmar <wallace.osmar@hotmail.com>
-     * @todo Creating the function group
      * @link https://github.com/dannyvankooten/AltoRouter AltoRouter
      * @since 0.0.1
      */
-    class Route {
-        
+    final class RouteCollection {
         /**
          * 
          */
@@ -61,6 +61,13 @@ namespace Carion\Routing\Route {
         protected $namedRoutes = [];
         
         /**
+         * Uri
+         * 
+         * @var string
+         */
+        protected $basePath = '/';
+        
+        /**
          * Array of default match types (regex helpers)
          * 
          * @var array
@@ -75,17 +82,75 @@ namespace Carion\Routing\Route {
 	];
         
         /**
+         * Retrieves all routes.
+         * 
+         * @return array
+         */
+        public function getRoutes() {
+            return $this->routes;
+        }
+        
+        /**
+         * 
+         * @param array|Traversable $routes
+         * 
+         * @throws CarionException
+         */
+        public function addRoutes( $routes ) {
+            if( ! is_array($routes) && ! $routes instanceof Traversable ) {
+                throw new CarionException('Routes should be an array or an instance of Traversable');
+            }
+            foreach ( $routes as $route ) {
+                call_user_func_array([ $this, 'map' ], $route);
+            }
+        }
+        
+        /**
+         * 
+         * @param string $basepath
+         */
+        public function setBasepath( $basepath = '/' ) {
+            $this->basePath = $basepath;
+        }
+        
+        /**
+         * 
+         * @return string
+         */
+        public function getBasepath() {
+            return $this->basePath;
+        }
+        
+        /**
+         * 
+         */
+        public function clearBasepath() {
+            $this->basePath = '/';
+        }
+        
+        /**
+         * 
+         * @param array $matchTypes
+         */
+        public function addMatchTypes($matchTypes) {
+            $this->matchTypes = array_merge($this->matchTypes, $matchTypes);
+        }
+        
+        /**
          * Map a route to a target
          * 
-         * @param type $method One of 5 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PATCH|PUT|DELETE)
-         * @param type $route The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
-         * @param type $target The target where this route should point to. Can be anything.
-         * @param type $name Optional name of this route. Supply if you want to reverse route this url in your application.
+         * @param string|array $method One of 5 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PATCH|PUT|DELETE)
+         * @param string $route The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
+         * @param string $target The target where this route should point to. Can be anything.
+         * @param string $name Optional name of this route. Supply if you want to reverse route this url in your application.
          * 
          * @throws \CarionMVC\Routing\Exception\DuplicateNamedRouteException
          */
         public function map( $method, $route, $target, $name = null ) {
             $method = implode('|', (array) $method);
+            
+            // Mount my Route
+            $route = $this->mountRoute($route);
             $this->routes[] = [ $method, $route, $target, $name ];
             if ( $name ) {
                 if ( isset ( $this->namedRoutes[ $name ] ) ) {
@@ -94,8 +159,32 @@ namespace Carion\Routing\Route {
                     $this->namedRoutes[ $name ] = $route;
                 }
             }
-            
             return $this;
+        }
+        
+        /**
+         * 
+         * @param string|array $group
+         * @param \Closure $callback
+         */
+        public function group ( $group, $callback ) {
+            if ( is_string( $group ) ) {
+                $group = [ 'path' => $group ];
+            }
+            
+            if ( isset( $group['domain'] ) && $_SERVER['SERVER_NAME'] !== $group['domain'] ) {
+                return;
+            }
+            
+            if ( isset( $group['path'] ) ) {
+                $aux = $this->getBasepath();
+                $this->setBasepath( $this->mountRoute( $group['path'] ) );
+            }
+            // Call Closure
+            $callback( $this );
+            if ( isset( $group['path'] ) ) {
+                $this->setBasepath($aux);
+            }
         }
         
         /**
@@ -105,7 +194,7 @@ namespace Carion\Routing\Route {
          * 
          * @return object Array with route information on success, false on failure (no match).
          */
-        public function match ( ServerRequest $request ) {
+        public function match ( Request $request ) {
             $params = [];
             $match = false;
             
@@ -113,7 +202,7 @@ namespace Carion\Routing\Route {
             $requestUrl = $request->requesturi();
             
             // set Request Method if it isn't passed as a parameter
-            $requestMethod = $request->mehtod();
+            $requestMethod = $request->method();
             foreach($this->routes as $handler) {
                 list($methods, $route, $target, $name) = $handler;
                 $method_match = (stripos($methods, $requestMethod) !== false);
@@ -161,6 +250,7 @@ namespace Carion\Routing\Route {
          *
          * @param string $routeName The name of the route.
          * @param array @params Associative array of parameters to replace placeholders with.
+         * 
          * @return string The URL of the route with named parameters in place.
          * @throws Exception
          */
@@ -222,6 +312,14 @@ namespace Carion\Routing\Route {
             return "`^$route$`u";
         }
         
+        /**
+         * 
+         * @param string $route
+         * 
+         * @return string
+         */
+        private function mountRoute( $route ) {
+            return rtrim( $this->basePath, '/' ) . '/' . ltrim ( $route, '/' );
+        }
     }
-    
 }

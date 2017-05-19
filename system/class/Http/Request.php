@@ -23,10 +23,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
 namespace Carion\Http {
     
     use ArrayAccess;
+    use Carion\Error\Exception\CarionException;
     
     /**
      * A class that helps wrap Request information and particulars about a single request.
@@ -43,7 +43,7 @@ namespace Carion\Http {
      * @package Core
      * @subpackage Http
      */
-    class ServerRequest implements ArrayAccess {
+    class Request implements ArrayAccess {
         
         /**
          * Array of paramters parsed by the url
@@ -205,7 +205,7 @@ namespace Carion\Http {
          * 
          * @return string The name of the HTTP method used.
          */
-        public function mehtod() {
+        public function method() {
             return $_SERVER['REQUEST_METHOD'];
         }
         
@@ -309,10 +309,8 @@ namespace Carion\Http {
                 if( strncmp($uri, '?/', 2) === 0 ) {
                     $uri = substr($uri, 2);
                 }
-
                 $parts = preg_split('#\?#i', $uri, 2);
                 $uri = $parts[0];
-
                 if( isset( $parts[1] ) ) {
                     $_SERVER['QUERY_STRING'] = $parts[1];
                     parse_str($_SERVER['QUERY_STRING'], $_GET);

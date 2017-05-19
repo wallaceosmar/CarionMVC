@@ -41,6 +41,7 @@ namespace App\Controller {
          */
         public function __construct() {
             parent::__construct();
+            $this->response = \Carion\Carion::singleton()->response;
         }
         
         /**

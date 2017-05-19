@@ -41,13 +41,65 @@ namespace Carion\Error {
     class CarionErrorHandler {
         
         /**
+         *
+         * @var \Carion\Http\ServerResponse 
+         */
+        protected $response;
+        
+        /**
+         *
+         * @var bool 
+         */
+        protected $debug;
+        
+        public function __construct( $response ) {
+            $this->response = $response;
+            $this->debug = error_reporting();
+        }
+        
+        /**
          * 
          * @param Exception $exception
          * 
          * @todo Implementig this function
          */
-        public function handleException( \Exception $exception ) {
+        public function handleException( $exception ) {
+            ob_clean();
+            if ( $this->debug ) {
+                $title = 'Carion Application Error';
+                $exception->type = get_class( $exception );
+            }
             
+            echo <<<HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{$title}</title>
+        <style>
+            body { margin: 0; padding: 30px; font: 12px/1.5 Helvetica, Arial, Verdana, sans-serif; }
+            h1 {margin: 0;font-size: 48px;font-weight: normal;line-height: 48px; }
+            strong { display: inline-block; width: 65px; }
+        </style>
+    </head>
+
+    <body>
+        <h1>{$title}</h1>
+        <p>The application could not run because of the following error:</p>
+        <h2>Details</h2>
+        <p><strong>Type:</strong> {$exception->type}</p>
+        <p><strong>Code:</strong> {$exception->getCode()}</p>
+        <p><strong>Message:</strong> {$exception->getMessage()}</p>
+        <p><strong>File:</strong> {$exception->getFile()}</p>
+        <p><strong>Line:</strong> {$exception->getLine()}</p>
+        <h2>Trace</h2>
+        <pre>{$exception->getTraceAsString()}</pre>
+    </body>
+</html>
+HTML;
+            
+            $this->response->withBody(ob_get_contents());
+            ob_end_clean();
+            die( $this->response->getBody());
         }
         
         /**
@@ -124,8 +176,8 @@ namespace Carion\Error {
          * @todo Implement the shutdow handler function
          */
         public function register() {
-            //set_error_handler([ $this, 'handleError' ]);
-            //set_exception_handler([$this, 'handleException']);
+            set_error_handler([ $this, 'handleError' ]);
+            set_exception_handler([$this, 'handleException']);
         }
         
     }

@@ -24,10 +24,9 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Load {
+namespace Carion\Load {
     
-    use \ReflectionClass;
-    use \CarionMVC\Error\Exception\CarionException;
+    use Carion\Error\Exception\CarionException;
     
     /**
      * Description of Loader
@@ -76,6 +75,19 @@ namespace CarionMVC\Load {
             if ( in_array($name, $this->load_models, true) ) {
                 return $this;
             }
+            
+            $model = ucfirst($model);
+            $model = 'App\\Model\\' . $model;
+            
+            $CI = &get_instance();
+            if ( isset( $CI->$name ) ) {
+                if ( $CI->$name instanceof $model ) {
+                    throw new CarionException();
+                }
+            }
+            
+            $this->load_models[ $name ] = $model;
+            $CI->$name = new $model();
             
             return $this;
         }
@@ -155,12 +167,14 @@ namespace CarionMVC\Load {
          * @param array $args [optional]
          *  The parameters to be passed to the class constructor as an array.
          * 
+         * @global \CarionMVC\Call\Instantiate $instantiate
+         * 
          * @return object a new instance of the class.
          */
         private function &newinstance( $class_name, $args = [] ) {
-            $reflection = new ReflectionClass( $class_name );
+            global $instantiate;
             
-            return $reflection->newInstanceArgs($args);
+            return $instantiate->newInstance( $class_name, $param_arr);
         }
         
     }

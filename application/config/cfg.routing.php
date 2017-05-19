@@ -24,5 +24,11 @@
  * THE SOFTWARE.
  */
 
-$router->map('GET', '/', 'default@index', 'index');
-$router->map('GET', '/[:page]', 'default@index', 'index-page');
+
+/* @var $router Carion\Routing\Route\RouteCollection */
+$router->group(['domain' => 'carion.localhost'], function( $router ) {
+    
+    $router->map('GET', '/', 'default@index', 'index');
+    $router->map('GET', '/[:page]', 'default@index', 'index-page');
+    
+});

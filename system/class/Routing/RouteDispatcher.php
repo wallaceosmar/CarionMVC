@@ -78,6 +78,14 @@ namespace Carion\Routing {
         
         /**
          * 
+         * @return bool
+         */
+        public function isExec() {
+            return is_callable( $this->controller );
+        }
+        
+        /**
+         * 
          * @return string
          */
         public function getAction() {

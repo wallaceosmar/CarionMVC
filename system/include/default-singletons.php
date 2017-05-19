@@ -24,6 +24,59 @@
  * THE SOFTWARE.
  */
 
+use Carion\Config\Config;
+use Carion\Http\Request;
+use Carion\Http\Response;
+use Carion\Routing\Dispatcher;
+use Carion\Routing\Route\RouteCollection;
+use Carion\Error\CarionErrorHandler;
+
 return [
     
+    /**
+     * 
+     */
+    'config' => function ($c) {
+        return $c['instantiate']->newInstance( Config::class , $c);
+    },
+    
+    /**
+     * 
+     */
+    'response' => function ( $c ) {
+        return $c->instantiate->newInstance( Response::class, $c );
+    },
+    
+    /**
+     * 
+     */
+    'request' => function ( $c ) {
+        return $c['instantiate']->newInstance( Request::class, $c);
+    },
+    
+    /**
+     * 
+     */
+    'router' => function ($c) {
+        $router = $c['instantiate']->newInstance( RouteCollection::class, $c );
+        
+        require_once ( APP_CFG_PATH . 'cfg.routing.php' );
+        
+        return $router;
+    },
+    
+    /**
+     * 
+     */
+    'dispatcher' => function ($c) {
+        return $c['instantiate']->newInstance( Dispatcher::class , $c);
+    },
+    
+    /**
+     * 
+     */
+    'errorHandler' => function( $c ) {
+        return $c['instantiate']->newInstance( CarionErrorHandler::class, $c );
+    }
+            
 ];

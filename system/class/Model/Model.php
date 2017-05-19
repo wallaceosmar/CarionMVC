@@ -1,6 +1,6 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,6 +24,29 @@
  * THE SOFTWARE.
  */
 
-return [
+namespace Carion\Model {
     
-];
+    /**
+     * Description of Model
+     *
+     * @author Wallace Osmar <wallace.osmar@hotmail.com>
+     */
+    class Model {
+        
+        /**
+         * Database variable
+         * 
+         * @var \PDO 
+         */
+        public $db = null;
+        
+        /**
+         * 
+         */
+        public function db() {
+            
+        }
+        
+    }
+    
+}

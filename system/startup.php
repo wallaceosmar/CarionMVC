@@ -26,7 +26,7 @@
 
 use Carion\Carion;
 
-/* @var $app Carion\Core\Framework */
+/* @var $app Carion */
 global $app;
 
 // Require the constant of the project
@@ -45,7 +45,7 @@ if ( ! ini_get('date.timezone') ) {
 // Include Autoloader
 require_once ( CORE_INC_PATH . 'inc.autoload.php' );
 
-$app = new Carion();
+$app = Carion::singleton();
 
 // Adding common functions
 require_once ( CORE_FNC_PATH . 'common.php' );

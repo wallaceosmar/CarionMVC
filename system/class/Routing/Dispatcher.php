@@ -26,9 +26,9 @@
 
 namespace Carion\Routing {
     
-    use \Carion\Http\ServerRequest;
-    use \Carion\Routing\Route\Route;
-    use \Carion\Routing\Exception\MissingControllerException;
+    use Carion\Http\Request;
+    use Carion\Routing\Route\RouteCollection;
+    use Carion\Routing\Exception\MissingControllerException;
     
     /**
      * Dispatcher converts Requests into controller actions. It uses the
@@ -48,32 +48,31 @@ namespace Carion\Routing {
          * 
          * @param type $route
          */
-        public function __construct( Route $router ) {
+        public function __construct( RouteCollection $router ) {
             $this->route = $router;
         }
         
         /**
          * 
-         * @param \Core\Http\ServerRequest $request
+         * @param \Carion\Http\Request $request
          * 
          * @return \Carion\Routing\RouteDispatcher
          */
-        public function dispatch( ServerRequest $request ) {
+        public function dispatch( Request $request ) {
             $matches = $this->route->match($request);
-            
             if ( false === $matches ) {
                 throw new MissingControllerException('Falha ao encontar o controller.');
             }
             
-            if ( is_string( $matches['target'] ) && false !== strpos( $matches['target'], '@' ) ) {
-                list( $controllet, $method ) = explode( '@', $matches['target'] );
+            $controller = $matches['target'];
+            if ( is_string( $controller ) && false !== strpos( $controller, '@' ) ) {
+                list( $controller, $method ) = explode( '@', $controller );
             }
-            
-            if ( '*' == $controllet ) {
+            if ( '*' == $controller ) {
                 if ( ! isset( $matches['params']['controller'] ) ) {
                     throw new MissingControllerException('Falha ao encontar o controller.');
                 }
-                $controllet = $matches['params']['controller'];
+                $controller = $matches['params']['controller'];
             }
             
             if ( '*' == $method ) {
@@ -84,7 +83,7 @@ namespace Carion\Routing {
             }
             
             return new RouteDispatcher([
-                'controller' => $controllet,
+                'controller' => $controller,
                 'method' => $method,
                 'params' => $matches['params'],
                 'name' => $matches['name']

@@ -1,0 +1,48 @@
+<<<HTML
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{$title}</title>
+        <style>
+            body {
+                margin: 0;
+                padding: 30px;
+                font: 12px/1.5 Helvetica, Arial, Verdana, sans-serif;
+            }
+            h1 {
+                margin: 0;
+                font-size: 48px;
+                font-weight: normal;
+                line-height: 48px;
+            }
+            strong {
+                display: inline-block;
+                width: 65px;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h1>{$title}</h1>
+        <p>The application could not run because of the following error:</p>
+        <h2>Details</h2>
+        <p><strong>Type:</strong> ErrorException</p>
+        <p><strong>Code:</strong> 0</p>
+        <p><strong>Message:</strong> Falha ao encontar o controller.</p>
+        <p><strong>File:</strong> C:\wamp\www\carion.localhost\CarionMVC\system\class\Routing\Dispatcher.php</p>
+        <p><strong>Line:</strong> 65</p>
+        <h2>Trace</h2>
+        <pre>#0 C:\wamp\www\api.anitube.localhost\public_html\include
+    outing.php(58): Slim\Slim::handleErrors(8, 'Undefined varia...', 'C:\wamp\www\api...', 58, Array)
+    #1 [internal function]: {closure}()
+    #2 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Route.php(436): call_user_func_array(Object(Closure), Array)
+    #3 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Slim.php(1307): Slim\Route-&gt;dispatch()
+    #4 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Middleware\Flash.php(85): Slim\Slim-&gt;call()
+    #5 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Middleware\MethodOverride.php(92): Slim\Middleware\Flash-&gt;call()
+    #6 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Middleware\PrettyExceptions.php(67): Slim\Middleware\MethodOverride-&gt;call()
+    #7 C:\wamp\www\api.anitube.localhost\public_html\libs\Slim\Slim.php(1254): Slim\Middleware\PrettyExceptions-&gt;call()
+    #8 C:\wamp\www\api.anitube.localhost\public_html1\index.php(7): Slim\Slim-&gt;run()
+    #9 {main}</pre>
+    </body>
+</html>
+HTML;

@@ -25,18 +25,15 @@
  */
 
 namespace Carion {
-    
-    use Carion\Config\Config;
+
     use Carion\Call\Instantiate;
     use Carion\Helper\Registry;
-    use Carion\Routing\Dispatcher;
-    use Carion\Routing\Route\Route;
-    use Carion\Http\ServerResponse;
-    use Carion\Http\ServerRequest;
-    
+
     /**
      * Carion
-     *
+     * 
+     * @todo Implement class hooks
+     * 
      * @author Wallace Osmar <wallace.osmar@hotmail.com>
      * @package Carion
      */
@@ -44,6 +41,12 @@ namespace Carion {
         
         /**
          *
+         * @var Carion 
+         */
+        protected static $instance = null;
+        
+        /**
+         * 
          * @var array[] 
          */
         protected $hooks = [
@@ -61,49 +64,37 @@ namespace Carion {
          * 
          */
         public function __construct() {
+            ob_start();
             
             $this->container = new Registry();
             $this->container['instantiate'] = new Instantiate();
             
-            /**
-             * 
-             */
-            $this->container->singleton('config', function( $c ){
-                return $c->instantiate->newInstance( new Config(), $c);
-            });
+            // Require a array with the default singletons
+            $singletons = include ( CORE_INC_PATH . 'default-singletons.php' );
+            foreach ( (array) $singletons as $name => $singletons ) {
+                $this->container->singleton( $name, $singletons);
+            }
             
-            /**
-             * 
-             */
-            $this->container->singleton('response', function( $c ){
-                return new ServerResponse();
-            });
+            // Require a array with the custom singletons
+            $singletons = include ( APP_CFG_PATH . 'cfg.singleton.php' );
+            foreach ( (array) $singletons as $name => $singletons ) {
+                $this->container->singleton( $name, $singletons);
+            }
             
-            /**
-             * 
-             */
-            $this->container->singleton('request', function ($c) {
-                return new ServerRequest();
-            });
-            
-            /**
-             * 
-             */
-            $this->container->singleton('router', function($c){
-                $router = new Route();
-                
-                require_once ( APP_CFG_PATH . 'cfg.routing.php' );
-                
-                return $router;
-            });
-            
-            /**
-             * 
-             */
-            $this->container->singleton('dispatcher', function($c){
-                return new Dispatcher($c['router']);
-            });
-            
+            // Register error Handler
+            $this->errorHandler->register();
+        }
+        
+        /**
+         * 
+         * @return Carion
+         */
+        public static function &singleton() {
+            if ( ! isset( self::$instance ) ) {
+                $obj = __CLASS__;
+                self::$instance = new $obj;
+            }
+            return self::$instance;
         }
         
         /**
@@ -127,37 +118,68 @@ namespace Carion {
         }
         
         /**
+         * 
+         * @param string $name
+         * @param mixed $value
+         */
+        public function set( $name, $value ) {
+            $this->container->set($name, $value);
+        }
+        
+        /**
+         * 
+         * @param string $name
+         * @param type $value
+         */
+        public function __set($name, $value) {
+            $this->set($name, $value);
+        }
+        
+        /**
+         * 
+         */
+        public function stop() {
+            $this->response->setContent( ob_get_contents() );
+            ob_end_clean();
+            $this->response->display();
+            exit;
+        }
+        
+        /**
          * Run
          */
         public function run() {
-            ob_start();
             try {
                 
+                /* @var $dispatch Routing\RouteDispatcher */
                 $dispatch = $this->dispatcher->dispatch( $this->request );
-                $mountClass = "App\\Controller\\{$dispatch->getController()}Controller";
-                if ( ! class_exists( $mountClass ) ) {
-                    $mountClass = $this->config->get('controller.error');
-                    if ( !class_exists( $mountClass ) ) {
-                        throw new MissingControllerException('Controller não encontrado');
+                if ( $dispatch->isExec() ) {
+                    echo $this->instantiate->callMethod($dispatch->getController(), '__invoke', $dispatch->getParams());
+                } else {
+                    $mountClass = "App\\Controller\\{$dispatch->getController()}Controller";
+                    if ( ! class_exists( $mountClass ) ) {
+                        $mountClass = $this->config->get('controller.error');
+                        if ( !class_exists( $mountClass ) ) {
+                            throw new MissingControllerException('Controller não encontrado');
+                        }
                     }
+
+                    // Initialize The Controller Instance
+                    $controller = $this->instantiate->newInstance( $mountClass, $this->container );
+                    if ( ! method_exists( $controller, $dispatch->getAction() ) ) {
+                        throw new MissingControllerException('Method não encontrado');
+                    }
+
+                    echo $this->instantiate->callMethod( $controller, $dispatch->getAction(), $dispatch->getParams() );
                 }
-                
-                $controller = $this->instantiate->newInstance( $mountClass, $this->container );
-                
-                if ( ! method_exists( $controller, $dispatch->getAction() ) ) {
-                    throw new MissingControllerException('Method não encontrado');
-                }
-                
-                echo $this->instantiate->callMethod( $controller, $dispatch->getAction(), $dispatch->getParams() );
-                
             } catch (Exception $ex) {
                 ob_clean();
                 echo sprintf('[%s]: %s on %s in line %s', $ex->getCode(), $ex->getMessage(), $ex->getFile(), $ex->getLine());
             }
             
-            $this->response->setContent( ob_get_contents() );
+            $this->response->withBody( ob_get_contents() );
             ob_end_clean();
-            $this->response->display();
+            die( $this->response->getBody() );
         }
     
     }

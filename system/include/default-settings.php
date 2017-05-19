@@ -27,15 +27,8 @@
 // Default Configurations
 return [
     
-    'registry' => [
+    'database' => [
         
-        'response' => 'Carion\\Http\\ServerResponse',
-        
-        'request' => 'Carion\\Http\\ServerRequest',
-        
-        'router' => 'Carion\\Routing\\Route\\Route',
-        
-        'dispatcher' => 'Carion\\Routing\\Dispatcher'
-    ]
+    ],
     
 ];

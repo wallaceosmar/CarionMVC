@@ -1,6 +1,6 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
 
-/*
+/* 
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -24,15 +24,13 @@
  * THE SOFTWARE.
  */
 
-namespace CarionMVC\Http {
+//use \SessionHandler;
+
+return [
     
     /**
-     * Description of ServerResponse
-     *
-     * @author Wallace Osmar <wallace.osmar@hotmail.com>
-     * @license http://www.opensource.org/licenses/mit-license.php MIT License
+     * To change the singleton of any class use this file
+     * 'session' => function ( $c ) { return new SessionHandler(); }
      */
-    class ServerResponse {
-        //put your code here
-    }
-}
+    
+];

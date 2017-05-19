@@ -27,11 +27,48 @@
 namespace Carion\Http {
     
     /**
+     * Description of Message
      *
      * @author Wallace Osmar <wallace.osmar@hotmail.com>
      * @license http://www.opensource.org/licenses/mit-license.php MIT License
      */
-    interface RequestInterface {
-        //put your code here
+    abstract class Message {
+        
+        /**
+         * Protocol version
+         * 
+         * @var string
+         */
+        protected $protocolVersion = '1.1';
+        
+        /**
+         *
+         * @var string 
+         */
+        protected $stream = '';
+        
+        /**
+         * 
+         * @return static
+         */
+        public function withBody( $body ) {
+            $clone = clone $this;
+            
+            $this->stream = $body;
+            
+            return $clone;
+        }
+        
+        /**
+         * 
+         * @return type
+         */
+        public function getBody () {
+            if ( !$this->stream ) {
+                return null;
+            }
+            return $this->stream;
+        }
+        
     }
 }

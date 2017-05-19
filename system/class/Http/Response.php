@@ -1,6 +1,5 @@
 <?php ! defined('BASEPATH') && exit( 'No direct script access allowed' );
-
-/* 
+/*
  * The MIT License
  *
  * Copyright 2017 Wallace Osmar.
@@ -23,7 +22,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-
-return [
+namespace Carion\Http {
     
-];
+    use Carion\Http\Message;
+    
+    /**
+     * Description of ServerResponse
+     *
+     * @author Wallace Osmar <wallace.osmar@hotmail.com>
+     * @license http://www.opensource.org/licenses/mit-license.php MIT License
+     */
+    class Response extends Message {
+        
+    }
+}
