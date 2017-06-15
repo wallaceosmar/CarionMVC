@@ -40,7 +40,7 @@ namespace Carion\Http {
      * 
      * @since 0.0.1
      * 
-     * @package Core
+     * @package Carion
      * @subpackage Http
      */
     class Request implements ArrayAccess {
